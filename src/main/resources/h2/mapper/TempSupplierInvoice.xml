@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lsq.conway.interview.mapper.TempSupplierInvoiceMapper">
+    <resultMap id="tempResultMap" type="com.lsq.conway.interview.domain.SupplierInvoice">
+        <id property="supplierId" column="supplier_id"/>
+        <id property="invoiceId" column="invoice_id"/>
+        <id property="invoiceDate" column="invoice_date"/>
+        <id property="invoiceAmount" column="invoice_amount"/>
+        <id property="terms" column="terms"/>
+        <id property="paymentDate" column="payment_date"/>
+        <id property="paymentAmount" column="payment_amount"/>
+    </resultMap>
+    <insert id="insertSupplierInvoice" parameterType="com.lsq.conway.interview.domain.SupplierInvoice">
+        insert into temp_supplier_invoices (supplier_id, invoice_id, invoice_date, invoice_amount, terms, payment_date, payment_amount)
+        values (#{supplierId},#{invoiceId},#{invoiceDate},#{invoiceAmount},#{terms},#{paymentDate},#{paymentAmount})
+    </insert>
+<!--    <update id="persistData">-->
+<!--        update supplier_invoices-->
+<!--        set supplier_invoices.supplier_id = temp_supplier_invoices.supplier_id,-->
+<!--         supplier_invoices.invoice_id = temp_supplier_invoices.invoice_id,-->
+<!--         supplier_invoices.invoice_date = temp_supplier_invoices.invoice_date,-->
+<!--         supplier_invoices.invoice_amount = temp_supplier_invoices.invoice_amount,-->
+<!--         supplier_invoices.terms = temp_supplier_invoices.terms,-->
+<!--         supplier_invoices.payment_date = temp_supplier_invoices.payment_date,-->
+<!--         supplier_invoices.payment_amount = temp_supplier_invoices.payment_amount-->
+<!--         from temp_supplier_invoices-->
+<!--         join supplier_invoices on (temp_supplier_invoices.supplier_id = supplier_invoices.supplier_id and temp_supplier_invoices.invoice_id = supplier_invoices.invoice_id)-->
+<!--         -->
+<!--         insert into supplier_invoices (supplier_id, invoice_id, invoice_date, invoice_amount, terms, payment_date, payment_amount)-->
+<!--            select supplier_id, invoice_id, invoice_date, invoice_amount, terms, payment_date, payment_amount-->
+<!--            from temp_supplier_invoices-->
+<!--            where not exists (-->
+<!--                select supplier_id, invoice_id-->
+<!--                from supplier_invoices-->
+<!--                where supplier_invoices.supplier_id = temp_supplier_invoices.supplier_id-->
+<!--                and supplier_invoices.invoice_id = temp_supplier_invoices.invoice_id-->
+<!--            )-->
+<!--    </update>-->
+    <select id="find" resultMap="tempResultMap">
+        select supplier_id, invoice_id, invoice_date, invoice_amount, terms, payment_date, payment_amount
+        from temp_supplier_invoices
+        where supplier_id = #{supplierId}
+        and invoice_id = #{invoiceId}
+    </select>
+    <select id="findAll" resultMap="tempResultMap">
+        select supplier_id, invoice_id, invoice_date, invoice_amount, terms, payment_date, payment_amount
+        from temp_supplier_invoices
+    </select>
+    <delete id="deleteAll">
+        delete from temp_supplier_invoices
+    </delete>
+</mapper>

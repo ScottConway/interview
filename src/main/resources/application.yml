@@ -1,0 +1,35 @@
+server:
+  port: 10100
+
+mybatis:
+  mapper-locations: classpath:h2/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+
+logging:
+  level:
+    root: DEBUG
+    org.conway.dockertest: DEBUG
+
+management:
+  endpoint:
+    httptrace:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: shutdown
+
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    schema: classpath:h2/schema.sql
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+

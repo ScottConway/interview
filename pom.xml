@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lsq.conway</groupId>
     <artifactId>interview</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>interview</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Scott Conway's LSQ interview project</description>
 
     <properties>
         <java.version>11</java.version>
@@ -57,6 +57,16 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.3</version>
         </dependency>
     </dependencies>
 
