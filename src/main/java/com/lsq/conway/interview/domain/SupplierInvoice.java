@@ -4,6 +4,8 @@ import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvDate;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -111,5 +113,20 @@ public class SupplierInvoice {
     @Override
     public int hashCode() {
         return Objects.hash(supplierId, invoiceId, invoiceDate, invoiceAmount, terms, paymentDate, paymentAmount);
+    }
+
+    public String getStatus() {
+        BigDecimal paid = paymentAmount == null ? BigDecimal.ZERO : paymentAmount;
+        ZonedDateTime d = ZonedDateTime.ofInstant(invoiceDate.toInstant(),
+                ZoneId.systemDefault()).plusDays(terms);
+          if (invoiceAmount.compareTo(paid) == 1) {
+              return d.compareTo(ZonedDateTime.now()) >= 0 ? "Open" : "Late";
+          }
+          else {
+              if (invoiceAmount.compareTo(paid) == 0) {
+                  return "Closed";
+              }
+              else return "Payment Scheduled";
+          }
     }
 }

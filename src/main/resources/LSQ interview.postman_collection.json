@@ -1,0 +1,49 @@
+{
+	"info": {
+		"_postman_id": "3b0fd44e-92f8-4fd4-a394-f010f8d95cc7",
+		"name": "LSQ interview",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "upload supplier invoices",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/Users/scott/Downloads/csv/invoice_data_1.csv"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:10100/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "10100",
+					"path": [
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "read all invoices",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -34,4 +34,5 @@ public class SupplierInvoiceController {
         }
         return new ResponseEntity<>("file uploaded", HttpStatus.OK);
     }
+
 }
