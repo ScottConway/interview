@@ -1,6 +1,7 @@
 package com.lsq.conway.interview.service;
 
 import com.lsq.conway.interview.domain.SupplierInvoice;
+import com.lsq.conway.interview.domain.SupplierSummary;
 import com.lsq.conway.interview.exceptions.DuplicateEntriesException;
 import com.lsq.conway.interview.mapper.SupplierInvoiceMapper;
 import com.lsq.conway.interview.mapper.TempSupplierInvoiceMapper;
@@ -13,9 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SupplierInvoiceService {
@@ -68,5 +67,21 @@ public class SupplierInvoiceService {
 
     public List<SupplierInvoice> findAll() {
         return mapper.findAll();
+    }
+
+    public List<SupplierSummary> listSupplierSummary() {
+        List<SupplierInvoice> invoices = findAll();
+        Map<String, SupplierSummary> summaryMap = new HashMap<>();
+
+        for (SupplierInvoice invoice : invoices) {
+            SupplierSummary summary = summaryMap.get(invoice.getSupplierId());
+            if (summary == null) {
+                summary = new SupplierSummary(invoice);
+            } else {
+                summary.addInvoice(invoice);
+            }
+            summaryMap.put(invoice.getSupplierId(), summary);
+        }
+        return new ArrayList<>(summaryMap.values());
     }
 }

@@ -89,7 +89,7 @@ public class SupplierInvoice {
     }
 
     public BigDecimal getPaymentAmount() {
-        return paymentAmount;
+        return paymentAmount == null ? BigDecimal.ZERO : paymentAmount;
     }
 
     public void setPaymentAmount(BigDecimal paymentAmount) {
@@ -107,16 +107,16 @@ public class SupplierInvoice {
                 invoiceDate.equals(that.invoiceDate) &&
                 invoiceAmount.equals(that.invoiceAmount) &&
                 Objects.equals(paymentDate, that.paymentDate) &&
-                Objects.equals(paymentAmount, that.paymentAmount);
+                getPaymentAmount().compareTo(that.getPaymentAmount()) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(supplierId, invoiceId, invoiceDate, invoiceAmount, terms, paymentDate, paymentAmount);
+        return Objects.hash(supplierId, invoiceId, invoiceDate, invoiceAmount, terms, paymentDate, getPaymentAmount());
     }
 
     public String getStatus() {
-        BigDecimal paid = paymentAmount == null ? BigDecimal.ZERO : paymentAmount;
+        BigDecimal paid = getPaymentAmount();
         ZonedDateTime d = ZonedDateTime.ofInstant(invoiceDate.toInstant(),
                 ZoneId.systemDefault()).plusDays(terms);
 

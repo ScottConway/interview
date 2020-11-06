@@ -1,12 +1,16 @@
 package com.lsq.conway.interview.controller;
 
 import com.lsq.conway.interview.domain.SupplierInvoice;
+import com.lsq.conway.interview.domain.SupplierSummary;
 import com.lsq.conway.interview.exceptions.DuplicateEntriesException;
 import com.lsq.conway.interview.service.SupplierInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -35,4 +39,9 @@ public class SupplierInvoiceController {
         return new ResponseEntity<>("file uploaded", HttpStatus.OK);
     }
 
+    @GetMapping("/ListSupplierSummary")
+    public ResponseEntity<List<SupplierSummary>> listSupplierSummary() {
+        List<SupplierSummary> summaryList = service.listSupplierSummary();
+        return new ResponseEntity<>(summaryList, HttpStatus.OK);
+    }
 }
