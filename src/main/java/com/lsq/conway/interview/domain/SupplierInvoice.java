@@ -119,14 +119,23 @@ public class SupplierInvoice {
         BigDecimal paid = paymentAmount == null ? BigDecimal.ZERO : paymentAmount;
         ZonedDateTime d = ZonedDateTime.ofInstant(invoiceDate.toInstant(),
                 ZoneId.systemDefault()).plusDays(terms);
-          if (invoiceAmount.compareTo(paid) == 1) {
-              return d.compareTo(ZonedDateTime.now()) >= 0 ? "Open" : "Late";
-          }
-          else {
-              if (invoiceAmount.compareTo(paid) == 0) {
-                  return "Closed";
-              }
-              else return "Payment Scheduled";
-          }
+
+        if (paid.compareTo(BigDecimal.ZERO) > 0 && hasFuturePaymentDate()) {
+            return "Payment Scheduled";
+        } else if (invoiceAmount.compareTo(paid) <= 0) {
+            return "Closed";
+        } else {
+            return d.compareTo(ZonedDateTime.now()) >= 0 ? "Open" : "Late";
+        }
+
+    }
+
+    private boolean hasFuturePaymentDate() {
+        if (paymentDate == null) {
+            return false;
+        }
+        ZonedDateTime pd = ZonedDateTime.ofInstant(paymentDate.toInstant(), ZoneId.systemDefault());
+
+        return pd.isAfter(ZonedDateTime.now());
     }
 }

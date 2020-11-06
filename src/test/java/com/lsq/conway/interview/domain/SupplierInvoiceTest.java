@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,18 +23,17 @@ public class SupplierInvoiceTest {
     private static final Date DATE_MINUS_10 = new Date(LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
     private static final Date DATE_MINUS_20 = new Date(LocalDate.now().minusDays(20).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
     private static final SupplierInvoice OPEN_INVOICE1 = new SupplierInvoice("supplier1", "invoiceid1", DATE_PLUS_20, AMOUNT1, 30, null, null);
-    private static final SupplierInvoice OPEN_INVOICE2 = new SupplierInvoice("supplier1", "invoiceid1", DATE_PLUS_20, AMOUNT1, 30, DATE_PLUS_10, AMOUNT2);
+    private static final SupplierInvoice SCHEDULED_INVOICE2 = new SupplierInvoice("supplier1", "invoiceid1", DATE_PLUS_20, AMOUNT1, 30, DATE_PLUS_10, AMOUNT2);
     private static final SupplierInvoice CLOSED_INVOICE2 = new SupplierInvoice("supplier1", "invoiceid1", DATE_PLUS_20, AMOUNT1, 30, DATE_MINUS_10, AMOUNT1);
     private static final SupplierInvoice LATE_INVOICE1 = new SupplierInvoice("supplier1", "invoiceid1", DATE_MINUS_20, AMOUNT1, 10, null, null);
-    private static final SupplierInvoice SCHEDULED_INVOICE1 = new SupplierInvoice("supplier1", "invoiceid1", DATE_MINUS_20, AMOUNT1, 120, null, null);
 
     @DisplayName("Check status.")
     @Test
     public void status() {
         assertEquals("Open", OPEN_INVOICE1.getStatus());
-        assertEquals("Open", OPEN_INVOICE2.getStatus());
+        assertEquals("Payment Scheduled", SCHEDULED_INVOICE2.getStatus());
         assertEquals("Late", LATE_INVOICE1.getStatus());
         assertEquals("Closed", CLOSED_INVOICE2.getStatus());
-        //assertEquals("Payment Scheduled", SCHEDULED_INVOICE1.getStatus());
+
     }
 }
